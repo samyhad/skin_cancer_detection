@@ -6,3 +6,8 @@
 *.bmp
 *.tiff
 *.svg
+
+# Ignorar arquivos .csv e .xlsx
+*.csv
+*.xlsx
+
