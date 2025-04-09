@@ -16,15 +16,13 @@ Técnicas de contraste adaptativo (ex: CLAHE) ajudam a destacar regiões escuras
 
 A **equalização de histograma** pode melhorar o contraste da imagem e facilitar a detecção da lesão.
 
-### Segmentação de Imagens
+### Classificação das Imagens
 
-Detecção da lesão na imagem com segmentação baseada em:
+Detecção da lesão na imagem baseada em **Deep Learning** (CNN)
 
-*   **Thresholding adaptativo**
-*   **Transformada de distância**
-*   **Watershed**
-*   **k-means**
-*   **Deep Learning** (U-Net, por exemplo)
+### Classificação das Imagens
+
+Segmentação da área apontada pela CNN como lesão (construção de mapa de calor baseado em black box usando LIME-SHAP)
 
 ### Amostragem e Quantização
 
