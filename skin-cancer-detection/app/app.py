@@ -63,14 +63,22 @@ def predict():
 
             # Visualizar o mapa de saliência sobre a imagem original
             saliency_overlayed = visualize_saliency(original_image, saliency)
+            
+            step1 = Resize((128, 128)).fit_transform([original_image])
+            step2 = GaussianBlur((3, 3)).fit_transform(step1)
+            step3 = CLAHE_Color().fit_transform(step2)
+
+            base64_preprocess_steps_image = show_images([original_image, step1[0], step2[0], step3[0]],
+            titles=["Original", "Resize", "GaussianBlur", "CLAHE"])
 
             # Codificar a imagem com o mapa de saliência para base64
             _, img_encoded = cv2.imencode('.jpg', saliency_overlayed)
             base64_image = base64.b64encode(img_encoded).decode('utf-8')
 
             return render_template('index.html',
-                                   prediction={'probability': float(probability), 'class': class_label},
-                                   saliency_image=base64_image)
+                prediction={'probability': float(probability), 'class': class_label},
+                saliency_image=base64_image,
+                preprocess_steps_image=base64_preprocess_steps_image)
         
         except Exception as e:
             return render_template('index.html', error=f'Erro ao processar a requisição: {e}')

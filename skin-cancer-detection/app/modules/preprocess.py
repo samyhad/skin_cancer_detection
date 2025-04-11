@@ -3,7 +3,9 @@ import pandas as pd
 import os
 import numpy as np
 import matplotlib.pyplot as plt
-
+import io
+import base64
+from io import BytesIO
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import train_test_split
@@ -18,15 +20,27 @@ def show_images(img_list, titles=None):
     Args:
         img_list (list): Lista de imagens a serem exibidas.
         titles (list, optional): Lista de títulos para cada imagem. Defaults to None.
+    Returns:
+        bytes: Bytes da imagem combinada em formato PNG.
     """
+    num_images = len(img_list)
     plt.figure(figsize=(15, 5))
     for i, img in enumerate(img_list):
-        plt.subplot(1, len(img_list), i+1)
+        plt.subplot(1, num_images, i + 1)
         plt.imshow(img, cmap='viridis')
         if titles:
             plt.title(titles[i])
         plt.axis('off')
-    plt.show()
+
+    # Salvar a figura em um buffer de bytes
+    img_buffer = io.BytesIO()
+    plt.savefig(img_buffer, format='png')
+    img_buffer.seek(0)
+    plt.close()
+
+    # Codificar para base64
+    base64_image = base64.b64encode(img_buffer.getvalue()).decode('utf-8')
+    return base64_image
 
 # Etapa 1.1: Redimensionamento
 class Resize(BaseEstimator, TransformerMixin):
