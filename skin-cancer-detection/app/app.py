@@ -15,11 +15,10 @@ app = Flask(__name__)
 
 model = keras.models.load_model('static/model/skin_cancer.keras')
 preprocess_pipeline = Pipeline([
-    ('resize', Resize((64, 64))),
-    ('blur', GaussianBlur()),
-    ('clahe', CLAHE_Color()),
-    ('normalize', Normalize(scaling='minmax'))
-])
+        ('resize', Resize((128, 128))),
+        ('blur', GaussianBlur()),
+        ('clahe', CLAHE_Color())
+    ])
 
 def preprocess_and_load_image(image_path):
     try:
@@ -47,7 +46,7 @@ def predict():
         return jsonify({'error': 'Nenhum arquivo selecionado'}), 400
     if file:
         try:
-            file_path = 'ISIC_0052003.jpg'
+            file_path = 'temp_img.jpg'
             file.save(file_path)
             original_image, processed_image = preprocess_and_load_image(file_path)
             os.remove(file_path)
