@@ -6,6 +6,7 @@ asttokens==3.0.0
 astunparse==1.6.3
 attrs==25.3.0
 binaryornot==0.4.4
+blinker==1.9.0
 build==1.2.2.post1
 cachetools==5.5.2
 certifi==2025.1.31
@@ -21,10 +22,12 @@ debugpy==1.8.13
 decorator==5.2.1
 dynaconf==3.2.10
 executing==2.2.0
+Flask==3.1.0
 flatbuffers==25.2.10
 fonttools==4.57.0
 fsspec==2025.3.2
 gast==0.6.0
+git-filter-repo==2.47.0
 gitdb==4.0.12
 GitPython==3.1.44
 google-pasta==0.2.0
@@ -36,6 +39,7 @@ importlib_resources==6.5.2
 ipykernel==6.29.5
 ipython==9.1.0
 ipython_pygments_lexers==1.1.1
+itsdangerous==2.2.0
 jedi==0.19.2
 Jinja2==3.1.6
 joblib==1.4.2
