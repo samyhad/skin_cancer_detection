@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Detecção de Câncer de Pele</title>
+    <style>
+        body { font-family: sans-serif; }
+        .result { margin-top: 20px; font-weight: bold; }
+        .saliency-container { margin-top: 20px; }
+        .saliency-image { max-width: 500px; height: auto; border: 1px solid #ccc; }
+        .preprocess-container { max-width: 500px; height: auto; border: 1px solid #ccc; }
+    </style>
+</head>
+<body>
+    <h1>Enviar imagem para detecção de câncer de pele</h1>
+    <form method="POST" action="/predict" enctype="multipart/form-data">
+        <input type="file" name="file" required>
+        <input type="submit" value="Prever">
+    </form>
+
+    {% if prediction %}
+    <div class="result">
+        Probabilidade: {{ prediction.probability }}<br>
+        Classe: {{ prediction.class }}
+    </div>
+    {% endif %}
+
+    {% if preprocess_steps_image %}
+    <div class="preprocess-container">
+        <h2>Aplicação de filtros</h2>
+        <img src="data:image/jpeg;base64,{{ preprocess_steps_image }}" alt="Etapas de Pré-processamento" class="saliency-image">
+    </div>
+    {% endif %}
+
+    {% if saliency_image %}
+    <div class="saliency-container">
+        <h2>Mapa de Saliência</h2>
+        <img src="data:image/jpeg;base64,{{ saliency_image }}" alt="Mapa de Saliência">
+    </div>
+    {% endif %}
+
+    {% if error %}
+    <p style="color: red;">Erro: {{ error }}</p>
+    {% endif %}
+</body>
+</html>
