@@ -191,3 +191,41 @@ class OtsuThreshold(BaseEstimator, TransformerMixin):
             _, binary = cv2.threshold(img, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
             binarized.append(binary)
         return binarized
+
+
+class MorphologicalOperations(BaseEstimator, TransformerMixin):
+    def __init__(self, operation='opening', kernel_size=(5, 5), iterations=1):
+        self.operation = operation
+        self.kernel = np.ones(kernel_size, np.uint8)
+        self.iterations = iterations
+
+    def fit(self, X, y=None):
+        return self
+
+    def transform(self, X):
+        processed_images = []
+        for img in X:
+            if len(img.shape) == 2:  # Imagem em escala de cinza
+                gray = img
+            elif len(img.shape) == 3: # Imagem colorida, converter para escala de cinza
+                gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
+            else:
+                raise ValueError("Imagem com formato não suportado.")
+
+            if self.operation == 'erosion':
+                processed_img = cv2.erode(gray, self.kernel, iterations=self.iterations)
+            elif self.operation == 'dilation':
+                processed_img = cv2.dilate(gray, self.kernel, iterations=self.iterations)
+            elif self.operation == 'opening':
+                processed_img = cv2.morphologyEx(gray, cv2.MORPH_OPEN, self.kernel, iterations=self.iterations)
+            elif self.operation == 'closing':
+                processed_img = cv2.morphologyEx(gray, cv2.MORPH_CLOSE, self.kernel, iterations=self.iterations)
+            else:
+                raise ValueError(f"Operação morfológica '{self.operation}' não suportada.")
+
+            if len(img.shape) == 3: # Retornar na forma original (mantendo 3 canais)
+                processed_images.append(cv2.cvtColor(processed_img, cv2.COLOR_GRAY2RGB))
+            else:
+                processed_images.append(processed_img)
+
+        return np.array(processed_images)

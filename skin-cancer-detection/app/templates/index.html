@@ -7,7 +7,8 @@
         .result { margin-top: 20px; font-weight: bold; }
         .saliency-container { margin-top: 20px; }
         .saliency-image { max-width: 500px; height: auto; border: 1px solid #ccc; }
-        .preprocess-container { max-width: 500px; height: auto; border: 1px solid #ccc; }
+        .preprocess-container { margin-top: 20px; }
+        .preprocess-image { max-width: 500px; height: auto; border: 1px solid #ccc; }
     </style>
 </head>
 <body>
@@ -27,7 +28,7 @@
     {% if preprocess_steps_image %}
     <div class="preprocess-container">
         <h2>Aplicação de filtros</h2>
-        <img src="data:image/jpeg;base64,{{ preprocess_steps_image }}" alt="Etapas de Pré-processamento" class="saliency-image">
+        <img src="data:image/jpeg;base64,{{ preprocess_steps_image }}" alt="Etapas de Pré-processamento">
     </div>
     {% endif %}
 

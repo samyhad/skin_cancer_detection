@@ -4,7 +4,7 @@ import numpy as np
 import cv2
 from sklearn.pipeline import Pipeline
 import os
-from modules.preprocess import Resize, GaussianBlur, CLAHE_Color, Normalize, show_images
+from modules.preprocess import Resize, GaussianBlur, CLAHE_Color, Normalize, MorphologicalOperations, show_images
 from modules.heatmap import saliency_map, visualize_saliency
 import base64
 from io import BytesIO
@@ -17,6 +17,8 @@ model = keras.models.load_model('static/model/skin_cancer.keras')
 preprocess_pipeline = Pipeline([
         ('resize', Resize((128, 128))),
         ('blur', GaussianBlur()),
+        ('morph_opening', MorphologicalOperations(operation='opening', kernel_size=(3, 3))),
+        ('morph_closing', MorphologicalOperations(operation='closing', kernel_size=(3, 3))),
         ('clahe', CLAHE_Color())
     ])
 
