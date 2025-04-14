@@ -1,65 +1,47 @@
 # Skin Cancer Detection Project
 
-This project aims to develop a model for skin cancer detection based on images. The workflow includes data preprocessing, feature engineering, and model training using neural networks.
+Este projeto tem como objetivo desenvolver um modelo para detecção de câncer de pele com base em imagens. O fluxo de trabalho inclui pré-processamento dos dados e treinamento do modelo utilizando redes neurais.
+
 
 ## Project Structure
 
-The project is organized as follows:
+O projeto é organizado da seguinte maneira:
 
 ```
 skin-cancer-detection
-├── conf
-│   ├── base
-│   │   ├── catalog.yml          # Data catalog for data sources and outputs
-│   │   ├── logging.yml          # Logging configuration
-│   │   └── parameters.yml       # Project parameters and hyperparameters
-│   └── local
-│       └── credentials.yml      # Local environment credentials
 ├── data
-│   ├── 01_raw                   # Raw data files (skin cancer images)
-│   ├── 02_intermediate          # Intermediate data files
 │   ├── 03_primary               # Primary datasets for analysis
-│   ├── 04_feature               # Feature-engineered datasets
-│   └── 05_model_input           # Datasets ready for model input
-├── logs                         # Log files generated during execution
 ├── notebooks
-│   └── exploratory.ipynb        # Jupyter notebook for exploratory data analysis
-├── src
-│   ├── skin_cancer_detection
-│   │   ├── __init__.py          # Marks the directory as a Python package
-│   │   ├── nodes
-│   │   │   ├── data_preprocessing.py  # Functions for image preprocessing
-│   │   │   └── model_training.py      # Functions for model training
-│   │   ├── pipelines
-│   │   │   ├── __init__.py          # Marks the pipelines directory as a Python package
-│   │   │   └── pipeline.py          # Defines the Kedro pipeline
-│   │   └── settings.py              # Project settings and configurations
-│   ├── requirements.txt             # Python dependencies for the project
-│   └── setup.py                     # Packaging information for the project
-└── README.md                       # Project documentation
+│   └── preprocess_pipeline_slin_lesion.ipynb        # Notebook onde exploramos as técnicas de PDI e treinamos o modelo
+│   └── skin_cancer.ipynb                            # Notebook onde executamos o SPI sem uso de uma aplicação WEB
+│   ├── requirements.txt             # Dependencias do projeto
+└── README.md                        # Documentação do projeto
 ```
 
-## Setup Instructions
+Claro! Aqui está a tradução completa da sua documentação inicial para o português:
 
-1. Clone the repository:
-   ```
+---
+
+## Instruções de Configuração
+
+1. Clone o repositório:
+   ```bash
    git clone <repository-url>
    cd skin-cancer-detection
    ```
 
-2. Install the required dependencies:
-   ```
+2. Instale as dependências necessárias:
+   ```bash
    pip install -r src/requirements.txt
    ```
 
-3. Configure your local environment by updating `conf/local/credentials.yml` with any necessary credentials.
+3. Configure seu ambiente local atualizando o arquivo `conf/local/credentials.yml` com as credenciais necessárias.
 
-## Usage Guidelines
+## Diretrizes de Uso
 
-- Use the `notebooks/exploratory.ipynb` for exploratory data analysis to understand the dataset better.
-- The data preprocessing and model training are orchestrated through the Kedro pipeline defined in `src/skin_cancer_detection/pipelines/pipeline.py`.
-- Adjust parameters in `conf/base/parameters.yml` to fine-tune the model training process.
+- Utilize o notebook `notebooks/exploratory.ipynb` para realizar uma análise exploratória e entender melhor o conjunto de dados.
+- O pré-processamento dos dados e o treinamento do modelo são orquestrados pelo pipeline do Kedro definido em `src/skin_cancer_detection/pipelines/pipeline.py`.
+- Ajuste os parâmetros no arquivo `conf/base/parameters.yml` para refinar o processo de treinamento do modelo.
 
-## License
-
-This project is licensed under the MIT License. See the LICENSE file for details.
+## Licença
+Projeto adota a licença MIT
