@@ -229,3 +229,69 @@ class MorphologicalOperations(BaseEstimator, TransformerMixin):
                 processed_images.append(processed_img)
 
         return np.array(processed_images)
+
+class Watershed(BaseEstimator, TransformerMixin):
+    """
+    Aplica o algoritmo Watershed para segmentação de imagens.
+
+    Args:
+        threshold_method (str, optional): Método de limiarização a ser usado ('otsu' ou 'binary').
+            Defaults to 'otsu'.
+        structuring_element_size (int, optional): Tamanho do elemento estruturante para operações morfológicas.
+            Defaults to 3.
+    """
+    def __init__(self, threshold_method='otsu', structuring_element_size=3):
+        self.threshold_method = threshold_method
+        self.structuring_element_size = structuring_element_size
+
+    def fit(self, X, y=None):
+        return self
+
+    def transform(self, X):
+        processed_images = []
+        for img in X:
+            # Converter para escala de cinza se a imagem for colorida
+            if len(img.shape) == 3:
+                gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            else:
+                gray = img.copy()
+
+            # 1. Limiarização para obter marcadores binários
+            if self.threshold_method == 'otsu':
+                _, thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
+            elif self.threshold_method == 'binary':
+                _, thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV)
+            else:
+                raise ValueError(f"Método de limiarização '{self.threshold_method}' não suportado.")
+
+            # 2. Remoção de ruído com operações morfológicas
+            kernel = np.ones((self.structuring_element_size, self.structuring_element_size), np.uint8)
+            opening = cv2.morphologyEx(thresh, cv2.MORPH_OPEN, kernel, iterations=2)
+
+            # 3. Encontrando a área de fundo garantida
+            sure_bg = cv2.dilate(opening, kernel, iterations=3)
+
+            # 4. Encontrando a área de primeiro plano garantida
+            dist_transform = cv2.distanceTransform(opening, cv2.DIST_L2, 5)
+            _, sure_fg = cv2.threshold(dist_transform, 0.7 * dist_transform.max(), 255, 0)
+            sure_fg = np.uint8(sure_fg)
+
+            # 5. Encontrando regiões desconhecidas
+            unknown = cv2.subtract(sure_bg, sure_fg)
+
+            # 6. Criação dos marcadores
+            _, markers = cv2.connectedComponents(sure_fg)
+            markers = markers + 1  # Adiciona 1 para que o fundo não seja 0
+            markers[unknown == 255] = 0 # Marca a região desconhecida com 0
+
+            # 7. Aplicando o Watershed
+            if len(img.shape) == 3:
+                segmented_img = cv2.watershed(img, markers)
+            else:
+                # Se a imagem original era em escala de cinza, precisa converter para 3 canais para o watershed
+                img_color = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
+                segmented_img = cv2.watershed(img_color, markers)
+
+            processed_images.append(segmented_img)
+
+        return np.array(processed_images)
