@@ -2,7 +2,6 @@
 
 Este projeto tem como objetivo desenvolver um modelo para detecção de câncer de pele com base em imagens. O fluxo de trabalho inclui pré-processamento dos dados e treinamento do modelo utilizando redes neurais.
 
-
 ## Project Structure
 
 O projeto é organizado da seguinte maneira:
@@ -16,11 +15,6 @@ skin-cancer-detection
 │   └── skin_cancer.ipynb                            # Notebook onde executamos o SPI sem uso de uma aplicação WEB
 │   ├── requirements.txt             # Dependencias do projeto
 └── README.md                        # Documentação do projeto
-```
-
-Claro! Aqui está a tradução completa da sua documentação inicial para o português:
-
----
 
 ## Instruções de Configuração
 
@@ -32,16 +26,14 @@ Claro! Aqui está a tradução completa da sua documentação inicial para o por
 
 2. Instale as dependências necessárias:
    ```bash
-   pip install -r src/requirements.txt
+   pip install -r requirements.txt
    ```
-
-3. Configure seu ambiente local atualizando o arquivo `conf/local/credentials.yml` com as credenciais necessárias.
-
-## Diretrizes de Uso
-
-- Utilize o notebook `notebooks/exploratory.ipynb` para realizar uma análise exploratória e entender melhor o conjunto de dados.
-- O pré-processamento dos dados e o treinamento do modelo são orquestrados pelo pipeline do Kedro definido em `src/skin_cancer_detection/pipelines/pipeline.py`.
-- Ajuste os parâmetros no arquivo `conf/base/parameters.yml` para refinar o processo de treinamento do modelo.
+## Como rodar o SPI pelo colab
+1. Faça uma cópia do skin_cancer.ipynb e depois aba no colab
+2. Dentro da pasta content do colab crie uma nova pasta chama modules
+3. Coloque os arquivos presentes na pasta app/modules dentro dessa nova pasta do colab
+4. Além disso, insira na pasta de content o modelo que iremos executar, no caso, o modelo presente na pasta app/static/model/skin_cancer.keras
+5. Execute o notebook seguindo a sequência pré estabelecida. 
 
 ## Licença
 Projeto adota a licença MIT
